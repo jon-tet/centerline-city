@@ -2404,7 +2404,7 @@ lib.properties = {
 	width: 1280,
 	height: 850,
 	fps: 60,
-	color: "#070935",
+	color: "transparent",
 	opacity: 1.00,
 	manifest: [
 		{src:"images/Base.png?1698193896145", id:"Base"},
