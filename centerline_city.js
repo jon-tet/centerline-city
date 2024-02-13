@@ -2084,7 +2084,7 @@ if (reversed == null) { reversed = false; }
 		var selectedIndex = -1;  // -1=nothing selected; 0=das, 1=ev, 2=houses, 3=hvac, 4=er, 5=dc, 6=ww, 7=powerlines
 		
 		root.main = function () {
-			document.body.style.backgroundColor = lib.properties.color;
+			document.body.style.backgroundColor = "transparent";
 			stage.enableMouseOver();
 		
 			//das
