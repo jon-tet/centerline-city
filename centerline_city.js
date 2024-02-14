@@ -1,3 +1,18 @@
+function listenForExternalTriggers() {
+    window.addEventListener('message', function(event) {
+        // Optionally, validate the event's origin for security reasons
+        if (event.origin !== "https://lumos-framework-cl-testing.webflow.io") {
+            console.error("Received message from unauthorized origin:", event.origin);
+            return; // Ignore messages from unauthorized origins
+        }
+
+        const data = event.data;
+        if (data && data.trigger) {
+            triggerAnimationBasedOnTrigger(data.trigger);
+        }
+    });
+}
+
 (function (cjs, an) {
 
 var p; // shortcut to reference prototypes
