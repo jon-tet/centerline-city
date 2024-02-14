@@ -2396,44 +2396,6 @@ if (reversed == null) { reversed = false; }
 
 	this._renderFirstFrame();
 
-	function triggerAnimationBasedOnTrigger(trigger) {
-    const triggerMap = {
-        "data-center-and-inside-plant": 5,
-        "electric-vehicle-charging-stations": 1,
-        "wireless-networks": 6,
-        "wireless-in-building-networks": 0,
-        "wireline-networks": 7,
-        "emergency-responder-systems": 4
-    };
-
-    if (triggerMap.hasOwnProperty(trigger)) {
-        exportRoot.selectedIndex = triggerMap[trigger];
-        // Assuming calling main() re-evaluates the selected index and triggers the correct animation
-        if (typeof exportRoot.main === "function") {
-            exportRoot.main();
-        }
-    } else {
-        console.error("No animation mapped for trigger:", trigger);
-    }
-}
-
-function listenForExternalTriggers() {
-    window.addEventListener('message', function(event) {
-        // Optionally, validate the event's origin for security reasons
-        if (event.origin !== "https://lumos-framework-cl-testing.webflow.io") {
-            console.error("Received message from unauthorized origin:", event.origin);
-            return; // Ignore messages from unauthorized origins
-        }
-
-        const data = event.data;
-        if (data && data.trigger) {
-            triggerAnimationBasedOnTrigger(data.trigger);
-        }
-    });
-}
-
-// Call listenForExternalTriggers at the very end to start listening
-listenForExternalTriggers();
 
 }).prototype = p = new lib.AnMovieClip();
 p.nominalBounds = new cjs.Rectangle(632.6,342,723.3000000000001,570.6);
@@ -2620,3 +2582,42 @@ an.handleFilterCache = function(event) {
 
 })(createjs = createjs||{}, AdobeAn = AdobeAn||{});
 var createjs, AdobeAn;
+
+function triggerAnimationBasedOnTrigger(trigger) {
+    const triggerMap = {
+        "data-center-and-inside-plant": 5,
+        "electric-vehicle-charging-stations": 1,
+        "wireless-networks": 6,
+        "wireless-in-building-networks": 0,
+        "wireline-networks": 7,
+        "emergency-responder-systems": 4
+    };
+
+    if (triggerMap.hasOwnProperty(trigger)) {
+        exportRoot.selectedIndex = triggerMap[trigger];
+        // Assuming calling main() re-evaluates the selected index and triggers the correct animation
+        if (typeof exportRoot.main === "function") {
+            exportRoot.main();
+        }
+    } else {
+        console.error("No animation mapped for trigger:", trigger);
+    }
+}
+
+function listenForExternalTriggers() {
+    window.addEventListener('message', function(event) {
+        // Optionally, validate the event's origin for security reasons
+        if (event.origin !== "https://lumos-framework-cl-testing.webflow.io") {
+            console.error("Received message from unauthorized origin:", event.origin);
+            return; // Ignore messages from unauthorized origins
+        }
+
+        const data = event.data;
+        if (data && data.trigger) {
+            triggerAnimationBasedOnTrigger(data.trigger);
+        }
+    });
+}
+
+// Call listenForExternalTriggers at the very end to start listening
+listenForExternalTriggers();
