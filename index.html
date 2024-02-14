@@ -16,6 +16,33 @@
 <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
 <script src="centerline_city.js"></script>
 <script>
+window.addEventListener('message', function(event) {
+    // Optional: Check event.origin here if you want to accept messages only from your Webflow site
+    // if (event.origin !== "https://yourwebflowsite.com") return;
+
+    var data = event.data;
+    
+    if (data && typeof data === 'object' && 'action' in data && 'index' in data) {
+        handleAnimationTrigger(data.action, parseInt(data.index));
+    }
+});
+
+function handleAnimationTrigger(action, index) {
+    // Assuming exportRoot is your main timeline and it has been initialized
+    if (!exportRoot || !exportRoot.selections || index < 0 || index >= exportRoot.selections.length) return;
+    
+    var targetMC = exportRoot.selections[index];
+    if (action === 'play') {
+        // Mimic mouseover effect
+        targetMC.dispatchEvent(new createjs.Event('mouseover'));
+    } else if (action === 'stop') {
+        // Mimic mouseout effect
+        targetMC.dispatchEvent(new createjs.Event('mouseout'));
+    }
+}
+</script>
+<!-- End of custom script -->
+<script>
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
 function init() {
 	canvas = document.getElementById("canvas");
