@@ -2255,20 +2255,17 @@ if (reversed == null) { reversed = false; }
 
 		function triggerAnimationBasedOnTrigger(trigger) {
     const triggerMap = {
-        "data-center-and-inside-plant": 5,
-        "electric-vehicle-charging-stations": 1,
-        "wireless-networks": 6,
-        "wireless-in-building-networks": 0,
-        "wireline-networks": 7,
-        "emergency-responder-systems": 4
+        'data-center-and-inside-plant': 5,
+        'electric-vehicle-charging-stations': 1,
+        'wireless-networks': 6,
+        'wireless-in-building-networks': 0,
+        'wireline-networks': 7,
+        'emergency-responder-systems': 4
     };
 
     if (triggerMap.hasOwnProperty(trigger)) {
         exportRoot.selectedIndex = triggerMap[trigger];
-        // Assuming calling main() re-evaluates the selected index and triggers the correct animation
-        if (typeof exportRoot.main === "function") {
-            exportRoot.main();
-        }
+        playAnimationBasedOnIndex(); // Call the function here
     } else {
         console.error("No animation mapped for trigger:", trigger);
     }
@@ -2276,12 +2273,7 @@ if (reversed == null) { reversed = false; }
 
 function listenForExternalTriggers() {
     window.addEventListener('message', function(event) {
-        // Optionally, validate the event's origin for security reasons
-        if (event.origin !== "https://lumos-framework-cl-testing.webflow.io") {
-            console.error("Received message from unauthorized origin:", event.origin);
-            return; // Ignore messages from unauthorized origins
-        }
-
+        // Security checks, e.g., if (event.origin !== "https://yourparentpage.origin.com") return;
         const data = event.data;
         if (data && data.trigger) {
             triggerAnimationBasedOnTrigger(data.trigger);
@@ -2618,6 +2610,36 @@ an.handleFilterCache = function(event) {
 	}
 }
 
-
+function playAnimationBasedOnIndex() {
+    if(exportRoot && exportRoot.timeline) {
+        switch(exportRoot.selectedIndex) {
+            case 0:
+                // Assuming 'labelName' is where your animation sequence starts for this index
+                exportRoot.gotoAndPlay("wireless-in-building-networksStart");
+                break;
+            case 1:
+                exportRoot.gotoAndPlay("electric-vehicle-charging-stationsStart");
+                break;
+            case 4:
+                exportRoot.gotoAndPlay("emergency-responder-systemsStart");
+                break;
+            case 5:
+                exportRoot.gotoAndPlay("data-center-and-inside-plantStart");
+                break;
+            case 6:
+                exportRoot.gotoAndPlay("wireless-networksStart");
+                break;
+            case 7:
+                exportRoot.gotoAndPlay("wireline-networksStart");
+                break;
+            // Add additional cases as needed
+            default:
+                console.log("No valid selectedIndex found or animation for this index is not defined");
+        }
+    } else {
+        console.log("exportRoot or timeline is undefined");
+    }
+}
+	
 })(createjs = createjs||{}, AdobeAn = AdobeAn||{});
 var createjs, AdobeAn;
