@@ -46,8 +46,6 @@ function handleComplete(evt,comp) {
 	exportRoot = new lib.centerline_city();
 	stage = new lib.Stage(canvas);
 	stage.enableMouseOver();
-	listenForExternalTriggers(); // This initializes the message event listener after the page has fully loaded
-	//Registers the "tick" event listener.
 	fnStartAnimation = function() {
 		stage.addChild(exportRoot);
 		createjs.Ticker.framerate = lib.properties.fps;
