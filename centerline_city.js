@@ -2252,37 +2252,6 @@ if (reversed == null) { reversed = false; }
 			root.toggleGlow(glowObj);
 		
 		};
-
-		function triggerAnimationBasedOnTrigger(trigger) {
-    const triggerMap = {
-        'data-center-and-inside-plant': 5,
-        'electric-vehicle-charging-stations': 1,
-        'wireless-networks': 6,
-        'wireless-in-building-networks': 0,
-        'wireline-networks': 7,
-        'emergency-responder-systems': 4
-    };
-
-    if (triggerMap.hasOwnProperty(trigger)) {
-        exportRoot.selectedIndex = triggerMap[trigger];
-        playAnimationBasedOnIndex(); // Call the function here
-    } else {
-        console.error("No animation mapped for trigger:", trigger);
-    }
-}
-
-function listenForExternalTriggers() {
-    window.addEventListener('message', function(event) {
-        // Security checks, e.g., if (event.origin !== "https://yourparentpage.origin.com") return;
-        const data = event.data;
-        if (data && data.trigger) {
-            triggerAnimationBasedOnTrigger(data.trigger);
-        }
-    });
-}
-
-// Call listenForExternalTriggers at the very end to start listening
-listenForExternalTriggers();
 		
 		root.main();
 	}
@@ -2426,7 +2395,6 @@ listenForExternalTriggers();
 	this.timeline.addTween(cjs.Tween.get(this.instance_6).wait(1));
 
 	this._renderFirstFrame();
-
 
 }).prototype = p = new lib.AnMovieClip();
 p.nominalBounds = new cjs.Rectangle(632.6,342,723.3000000000001,570.6);
@@ -2610,36 +2578,6 @@ an.handleFilterCache = function(event) {
 	}
 }
 
-function playAnimationBasedOnIndex() {
-    if(exportRoot && exportRoot.timeline) {
-        switch(exportRoot.selectedIndex) {
-            case 0:
-                // Assuming 'labelName' is where your animation sequence starts for this index
-                exportRoot.gotoAndPlay("wireless-in-building-networksStart");
-                break;
-            case 1:
-                exportRoot.gotoAndPlay("electric-vehicle-charging-stationsStart");
-                break;
-            case 4:
-                exportRoot.gotoAndPlay("emergency-responder-systemsStart");
-                break;
-            case 5:
-                exportRoot.gotoAndPlay("data-center-and-inside-plantStart");
-                break;
-            case 6:
-                exportRoot.gotoAndPlay("wireless-networksStart");
-                break;
-            case 7:
-                exportRoot.gotoAndPlay("wireline-networksStart");
-                break;
-            // Add additional cases as needed
-            default:
-                console.log("No valid selectedIndex found or animation for this index is not defined");
-        }
-    } else {
-        console.log("exportRoot or timeline is undefined");
-    }
-}
-	
+
 })(createjs = createjs||{}, AdobeAn = AdobeAn||{});
 var createjs, AdobeAn;
