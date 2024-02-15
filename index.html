@@ -26,31 +26,38 @@
         });
 
         function triggerAnimation(action, index) {
-            // Make sure exportRoot is initialized
-            if (typeof exportRoot === 'undefined') return;
+    // Make sure exportRoot is initialized
+    if (typeof exportRoot === 'undefined') return;
 
-            var animationsMap = {
-    '0': { play: () => exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, exportRoot.das_mc.das_on_top_anim_mc.totalFrames - 1, exportRoot.das_mc.das_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, 0, exportRoot.das_mc.das_on_glow) },
-    '1': { play: () => exportRoot.passthroughTween(exportRoot.ev_mc.ev_on_top_anim, exportRoot.ev_mc.ev_on_top_anim.totalFrames - 1, exportRoot.ev_mc.ev_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.ev_mc.ev_on_top_anim, 0, exportRoot.ev_mc.ev_on_glow) },
-    '2': { play: () => exportRoot.passthroughTween(exportRoot.houses_mc.houses_on_anim, exportRoot.houses_mc.houses_on_anim.totalFrames - 1, exportRoot.houses_mc.houses_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.houses_mc.houses_on_anim, 0, exportRoot.houses_mc.houses_on_glow) },
-    '3': { play: () => exportRoot.passthroughTween(exportRoot.hvac_mc.hvac_on_top_anim, exportRoot.hvac_mc.hvac_on_top_anim.totalFrames - 1, exportRoot.hvac_mc.hvac_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.hvac_mc.hvac_on_top_anim, 0, exportRoot.hvac_mc.hvac_on_glow) },
-    '4': { play: () => exportRoot.passthroughTween(exportRoot.er_mc.er_on_top_anim, exportRoot.er_mc.er_on_top_anim.totalFrames - 1, exportRoot.er_mc.er_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.er_mc.er_on_top_anim, 0, exportRoot.er_mc.er_on_glow) },
-    '5': { play: () => exportRoot.passthroughTween(exportRoot.dc_mc.dc_on_top_anim, exportRoot.dc_mc.dc_on_top_anim.totalFrames - 1, exportRoot.dc_mc.dc_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.dc_mc.dc_on_top_anim, 0, exportRoot.dc_mc.dc_on_glow) },
-    '6': { play: () => exportRoot.passthroughTween(exportRoot.ww_mc, exportRoot.ww_mc.totalFrames - 1, exportRoot.ww_mc.ww_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.ww_mc, 0, exportRoot.ww_mc.ww_on_glow) },
-    '7': { play: () => exportRoot.passthroughTween(exportRoot.powerlines_mc.powerlines_on_anim, exportRoot.powerlines_mc.powerlines_on_anim.totalFrames - 1, exportRoot.powerlines_mc.powerlines_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.powerlines_mc.powerlines_on_anim, 0, exportRoot.powerlines_mc.powerlines_on_glow) },
-};
+    // Parse the index to an integer as it will be received as a string
+    index = parseInt(index, 10);
 
+    var animationsMap = {
+        '0': {
+	    play: () => {
+	        exportRoot.selectedIndex = 0;
+	        exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, exportRoot.das_mc.das_on_top_anim_mc.totalFrames - 1, exportRoot.das_mc.das_on_glow);
+	        exportRoot.fadeDownAllButThis(exportRoot.das_mc);  //fade all other selections
+	    },
+	    stop: () => {
+	        exportRoot.selectedIndex = -1;
+	        exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, 0, exportRoot.das_mc.das_on_glow);
+	        exportRoot.resetAllOpacity();
+	    }
+	},
+    };
 
-            // Trigger the corresponding animation based on action and index
-            var animAction = animationsMap[index];
-            if (animAction) {
-                if (action === 'play' && animAction.play) {
-                    animAction.play();
-                } else if (action === 'stop' && animAction.stop) {
-                    animAction.stop();
-                }
-            }
-        }
+    // Check if the index exists in the animations map
+    if (!animationsMap.hasOwnProperty(index)) return;
+
+    // Trigger the corresponding animation based on action and index
+    if (action === 'play' && animationsMap[index].play) {
+        animationsMap[index].play();
+    } else if (action === 'stop' && animationsMap[index].stop) {
+        animationsMap[index].stop();
+    }
+}
+
     </script>
 <script>
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
