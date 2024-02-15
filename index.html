@@ -12,36 +12,44 @@
 <meta charset="UTF-8">
 <meta name="authoring-tool" content="Adobe_Animate_CC">
 <title>Centerline City -- v5.3 --</title>
-<!-- write your code here -->
-<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
-<script src="centerline_city.js"></script>
 <script>
-window.addEventListener('message', function(event) {
-    // Optional: Check event.origin here if you want to accept messages only from your Webflow site
-    // if (event.origin !== "https://yourwebflowsite.com") return;
+        window.addEventListener('message', function(event) {
+        if (event.origin !== "https://lumos-framework-cl-testing.webflow.io/") return;
 
-    var data = event.data;
-    
-    if (data && typeof data === 'object' && 'action' in data && 'index' in data) {
-        handleAnimationTrigger(data.action, parseInt(data.index));
-    }
-});
+            var data = event.data;
+            
+            if (data && typeof data === 'object' && data.action && data.index !== undefined) {
+                triggerAnimation(data.action, data.index);
+            }
+        });
 
-function handleAnimationTrigger(action, index) {
-    // Assuming exportRoot is your main timeline and it has been initialized
-    if (!exportRoot || !exportRoot.selections || index < 0 || index >= exportRoot.selections.length) return;
-    
-    var targetMC = exportRoot.selections[index];
-    if (action === 'play') {
-        // Mimic mouseover effect
-        targetMC.dispatchEvent(new createjs.Event('mouseover'));
-    } else if (action === 'stop') {
-        // Mimic mouseout effect
-        targetMC.dispatchEvent(new createjs.Event('mouseout'));
-    }
-}
-</script>
-<!-- End of custom script -->
+        function triggerAnimation(action, index) {
+            // Make sure exportRoot is initialized
+            if (typeof exportRoot === 'undefined') return;
+
+            var animationsMap = {
+    '0': { play: () => exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, exportRoot.das_mc.das_on_top_anim_mc.totalFrames - 1, exportRoot.das_mc.das_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, 0, exportRoot.das_mc.das_on_glow) },
+    '1': { play: () => exportRoot.passthroughTween(exportRoot.ev_mc.ev_on_top_anim, exportRoot.ev_mc.ev_on_top_anim.totalFrames - 1, exportRoot.ev_mc.ev_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.ev_mc.ev_on_top_anim, 0, exportRoot.ev_mc.ev_on_glow) },
+    '2': { play: () => exportRoot.passthroughTween(exportRoot.houses_mc.houses_on_anim, exportRoot.houses_mc.houses_on_anim.totalFrames - 1, exportRoot.houses_mc.houses_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.houses_mc.houses_on_anim, 0, exportRoot.houses_mc.houses_on_glow) },
+    '3': { play: () => exportRoot.passthroughTween(exportRoot.hvac_mc.hvac_on_top_anim, exportRoot.hvac_mc.hvac_on_top_anim.totalFrames - 1, exportRoot.hvac_mc.hvac_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.hvac_mc.hvac_on_top_anim, 0, exportRoot.hvac_mc.hvac_on_glow) },
+    '4': { play: () => exportRoot.passthroughTween(exportRoot.er_mc.er_on_top_anim, exportRoot.er_mc.er_on_top_anim.totalFrames - 1, exportRoot.er_mc.er_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.er_mc.er_on_top_anim, 0, exportRoot.er_mc.er_on_glow) },
+    '5': { play: () => exportRoot.passthroughTween(exportRoot.dc_mc.dc_on_top_anim, exportRoot.dc_mc.dc_on_top_anim.totalFrames - 1, exportRoot.dc_mc.dc_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.dc_mc.dc_on_top_anim, 0, exportRoot.dc_mc.dc_on_glow) },
+    '6': { play: () => exportRoot.passthroughTween(exportRoot.ww_mc, exportRoot.ww_mc.totalFrames - 1, exportRoot.ww_mc.ww_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.ww_mc, 0, exportRoot.ww_mc.ww_on_glow) },
+    '7': { play: () => exportRoot.passthroughTween(exportRoot.powerlines_mc.powerlines_on_anim, exportRoot.powerlines_mc.powerlines_on_anim.totalFrames - 1, exportRoot.powerlines_mc.powerlines_on_glow), stop: () => exportRoot.passthroughTween(exportRoot.powerlines_mc.powerlines_on_anim, 0, exportRoot.powerlines_mc.powerlines_on_glow) },
+};
+
+
+            // Trigger the corresponding animation based on action and index
+            var animAction = animationsMap[index];
+            if (animAction) {
+                if (action === 'play' && animAction.play) {
+                    animAction.play();
+                } else if (action === 'stop' && animAction.stop) {
+                    animAction.stop();
+                }
+            }
+        }
+    </script>
 <script>
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
 function init() {
