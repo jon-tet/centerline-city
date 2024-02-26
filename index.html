@@ -34,17 +34,19 @@ function triggerAnimation(action, index) {
 
     var animationsMap = {
         '0': {
-            play: () => {
-                exportRoot.selectedIndex = 0;
-                exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, exportRoot.das_mc.das_on_top_anim_mc.totalFrames - 1, exportRoot.das_mc.das_on_glow);
-                exportRoot.fadeDownAllButThis(exportRoot.das_mc);
-            },
-            stop: () => {
-                exportRoot.selectedIndex = -1;
-                exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, 0, exportRoot.das_mc.das_on_glow);
-                exportRoot.resetAllOpacity();
-            }
-        },
+	    play: () => {
+		exportRoot.selectedIndex = 0;
+		exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, exportRoot.das_mc.das_on_top_anim_mc.totalFrames - 1, exportRoot.das_mc.das_on_glow);
+		// Hypothetical: Keeping both DAS and another animation (e.g., HVAC) fully visible
+		exportRoot.fadeDownAllButThis(exportRoot.das_mc, exportRoot.hvac_mc);
+	    },
+	    stop: () => {
+		exportRoot.selectedIndex = -1;
+		exportRoot.passthroughTween(exportRoot.das_mc.das_on_top_anim_mc, 0, exportRoot.das_mc.das_on_glow);
+		exportRoot.resetAllOpacity();
+	    }
+	},
+
         '1': {
             play: () => {
                 exportRoot.selectedIndex = 1;
