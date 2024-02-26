@@ -58,17 +58,19 @@ function triggerAnimation(action, index) {
             }
         },
         '2': {
-            play: () => {
-                exportRoot.selectedIndex = 2;
-                exportRoot.passthroughTween(exportRoot.houses_mc.houses_on_anim, exportRoot.houses_mc.houses_on_anim.totalFrames - 1, exportRoot.houses_mc.houses_on_glow);
-                exportRoot.fadeDownAllButThis(exportRoot.houses_mc);
-            },
-            stop: () => {
-                exportRoot.selectedIndex = -1;
-                exportRoot.passthroughTween(exportRoot.houses_mc.houses_on_anim, 0, exportRoot.houses_mc.houses_on_glow);
-                exportRoot.resetAllOpacity();
-            }
-        },
+	    play: () => {
+	        exportRoot.selectedIndex = 2;
+	        exportRoot.passthroughTween(exportRoot.houses_mc.houses_on_anim, exportRoot.houses_mc.houses_on_anim.totalFrames - 1, exportRoot.houses_mc.houses_on_glow);
+	        // Pass both houses_mc and powerlines_mc as exceptions to the fadeDownAllButThis function
+	        exportRoot.fadeDownAllButThis(exportRoot.houses_mc, exportRoot.powerlines_mc);
+	    },
+	    stop: () => {
+	        exportRoot.selectedIndex = -1;
+	        exportRoot.passthroughTween(exportRoot.houses_mc.houses_on_anim, 0, exportRoot.houses_mc.houses_on_glow);
+	        exportRoot.resetAllOpacity();
+	    }
+	},
+
         '3': {
             play: () => {
                 exportRoot.selectedIndex = 3;
