@@ -2218,14 +2218,17 @@ if (reversed == null) { reversed = false; }
 				}
 		}
 		
-		root.fadeDownAllButThis = function(obj) {  //isolate selected object visually by alpha down others
-				
-			for(var i=0;i<selections.length;i++){
-				selections[i].alpha = 0.25;
-			}	
-			obj.alpha = 1;	
-		
+		root.fadeDownAllButThis = function(...exclusions) {
+		    selections.forEach(selection => {
+		        // Check if the current selection is among the exclusions
+		        if (exclusions.includes(selection)) {
+		            selection.alpha = 1; // Keep fully visible
+		        } else {
+		            selection.alpha = 0.25; // Fade down
+		        }
+		    });
 		}
+
 		root.resetAllOpacity = function(){
 			for(var i=0;i<selections.length;i++){
 			//console.log(selections[i].name); 
