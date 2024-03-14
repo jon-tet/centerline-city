@@ -159,12 +159,13 @@ function init() {
         setTimeout(init, 100); // Try again in 100ms
         return;
     }
-	canvas = document.getElementById("canvas");
-	anim_container = document.getElementById("animation_container");
-	dom_overlay_container = document.getElementById("dom_overlay_container");
-	var comp=AdobeAn.getComposition("148D7EC74804F14580EA7507AFAB2A29");
-	var lib=comp.getLibrary();
-	createjs.MotionGuidePlugin.install();
+    canvas = document.getElementById("canvas");
+    canvas.willReadFrequently = true; // Optimization for frequent readbacks
+    anim_container = document.getElementById("animation_container");
+    dom_overlay_container = document.getElementById("dom_overlay_container");
+    var comp=AdobeAn.getComposition("148D7EC74804F14580EA7507AFAB2A29");
+    var lib=comp.getLibrary();
+    createjs.MotionGuidePlugin.install();
 	var loader = new createjs.LoadQueue(false);
 	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
 	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
